@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "366885464652",
+    "project_id": "fit-tracker-95737",
+    "storage_bucket": "fit-tracker-95737.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366885464652:android:5a994ac4d6d6b23ce4a2e9",
+        "android_client_info": {
+          "package_name": "com.example.fit_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366885464652-u86be7jn9v4ktrjb5j5hfnt4bf6tjpv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIa_iYQS-3Xo-6Q_MUFtxQV-jcRrXlwxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366885464652-u86be7jn9v4ktrjb5j5hfnt4bf6tjpv7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
