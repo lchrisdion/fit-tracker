@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fit_tracker/app/auth_controller.dart';
 import 'package:fit_tracker/app/modules/home/bindings/home_binding.dart';
+import 'package:fit_tracker/app/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,8 +23,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialBinding: HomeBinding(),
+      color: Colors.white,
       initialRoute: Routes.HOME,
-      // theme: appThemeData,
+      theme: appThemeData,
       getPages: AppPages.routes,
       navigatorKey: Get.key,
     );

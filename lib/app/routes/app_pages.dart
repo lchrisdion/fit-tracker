@@ -4,6 +4,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/profile_data/bindings/profile_data_binding.dart';
+import '../modules/profile_data/views/profile_register_view.dart';
 
 part 'app_routes.dart';
 
@@ -20,8 +22,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomeView(),
+      page: () => HomeView(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_REGISTER,
+      page: () => const ProfileRegisterView(),
+      binding: ProfileRegisterBinding(),
     ),
   ];
 }

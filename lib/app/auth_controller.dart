@@ -1,24 +1,38 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_tracker/app/data/model/user_data_model.dart';
 import 'package:fit_tracker/app/repositories/user_repository.dart';
+import 'package:fit_tracker/app/routes/app_pages.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 
 class AuthController extends GetxService {
   final UserRepository userRepository = UserRepository();
   final FirebaseAuth auth = FirebaseAuth.instance;
-  late final user = auth.currentUser.obs;
+  late final firebaseUserData = auth.currentUser.obs;
+
+  final userData = UserData().obs;
   late StreamSubscription userStreamSubsription =
-      FirebaseAuth.instance.authStateChanges().listen((user) {
-    if (user?.uid != null) {}
+      FirebaseAuth.instance.authStateChanges().listen((user) async {
+    if (user?.uid != null) {
+      isLogin.value = true;
+      firebaseUserData.value = user;
+      await getUserData();
+    } else {
+      isLogin.value = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.offAllNamed(Routes.LOGIN);
+      });
+    }
   });
-  late final isLogin = user.value?.uid != null.obs;
+  final isLogin = false.obs;
+  final userHasData = false.obs;
+
   @override
   void onInit() {
     super.onInit();
     userStreamSubsription = userStreamSubsription;
-    signUp('chrisdionleon80@gmail.com', 'nopassword');
   }
 
   @override
@@ -32,16 +46,8 @@ class AuthController extends GetxService {
     String password,
   ) async {
     try {
-      var response = await auth.createUserWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      if (response.additionalUserInfo?.isNewUser == true)
-        await addUser(
-          email: email,
-          height: 165,
-          isMale: true,
-          uid: response.user?.uid ?? "",
-          dateOfBirth: Jiffy().valueOf.toString(),
-        );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         await signIn(email, password);
@@ -61,31 +67,38 @@ class AuthController extends GetxService {
     }
   }
 
-  addUser(
-      {required String email,
-      required int height,
-      required bool isMale,
-      required String uid,
-      required String dateOfBirth}) async {
+  Future<void> signOut() async {
     try {
-      await userRepository.addUserData(
-        email: email,
-        height: height,
-        isMale: isMale,
-        uid: uid,
-        dateOfBirth: dateOfBirth,
-      );
-    } catch (e) {}
+      await auth.signOut();
+      userData.value = UserData();
+      userHasData.value = false;
+    } on FirebaseAuthException catch (e) {
+      print(e.toString());
+    }
   }
 
-  addTrackData(
-      {required int weight, required String uid, required String date}) async {
+  getUserData() async {
     try {
-      await userRepository.addUserTrackData(
-        date: date,
-        weight: weight,
-        uid: uid,
+      var response = await userRepository.getUserData(
+          uid: firebaseUserData.value?.uid ?? "");
+      userData.value = response;
+      userHasData.value = true;
+    } catch (e) {
+    } finally {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          if (userData.value.uid == null)
+            Get.offAllNamed(
+              Routes.PROFILE_DATA,
+              arguments: {
+                'email': firebaseUserData.value?.email,
+                'uid': firebaseUserData.value?.uid,
+              },
+            );
+          else if (Get.currentRoute != Routes.HOME)
+            Get.offAllNamed(Routes.HOME);
+        },
       );
-    } catch (e) {}
+    }
   }
 }
