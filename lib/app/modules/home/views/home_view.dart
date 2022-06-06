@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../auth_controller.dart';
 import '../controllers/home_controller.dart';
+import 'home_view/home_chart.dart';
 import 'home_view/home_track_list.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -24,57 +25,55 @@ class HomeView extends GetView<HomeController> {
                   headerSliverBuilder: ((context, innerBoxIsScrolled) {
                     return [
                       SliverAppBar(
-                        stretch: true,
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Fit Track',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                await controller.authController.signOut();
+                              },
+                              icon:
+                                  Icon(Icons.exit_to_app, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                        flexibleSpace: FlexibleSpaceBar(
+                          collapseMode: CollapseMode.pin,
+                          stretchModes: [StretchMode.blurBackground],
+                          titlePadding: const EdgeInsets.symmetric(
+                            horizontal: 27,
+                            vertical: 20,
+                          ),
+                          centerTitle: false,
+                          background: const HomeChart(),
+                        ),
+                        titleSpacing: 27,
+                        centerTitle: true,
+                        primary: true,
+                        snap: false,
                         automaticallyImplyLeading: false,
-                        expandedHeight: Get.height - (Get.height / 1.5),
                         pinned: true,
+                        floating: false,
+                        expandedHeight: kToolbarHeight +
+                            MediaQuery.of(context).padding.top +
+                            Get.width,
                         toolbarHeight: kToolbarHeight +
                             MediaQuery.of(context).padding.top +
                             20,
                         backgroundColor: !innerBoxIsScrolled
                             ? Colors.transparent
                             : Colors.white,
-                        flexibleSpace: FlexibleSpaceBar(
-                          stretchModes: const <StretchMode>[
-                            StretchMode.zoomBackground,
-                            StretchMode.blurBackground,
-                            StretchMode.fadeTitle,
-                          ],
-                          titlePadding: const EdgeInsets.symmetric(
-                            horizontal: 27,
-                            vertical: 20,
-                          ),
-                          centerTitle: false,
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Fit Track',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: innerBoxIsScrolled
-                                      ? null
-                                      : FontWeight.bold,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  await controller.authController.signOut();
-                                },
-                                icon: Icon(
-                                  Icons.exit_to_app,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        elevation: 0,
+                        shadowColor: Colors.transparent,
+                        surfaceTintColor: Colors.white,
                       ),
-                      // SliverOverlapAbsorber(
-                      //   handle:
-                      //       NestedScrollView.sliverOverlapAbsorberHandleFor(
-                      //           context),
-                      // ),
                     ];
                   }),
                   body: const HomeTrackList(),

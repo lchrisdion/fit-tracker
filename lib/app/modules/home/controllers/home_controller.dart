@@ -117,4 +117,14 @@ class HomeController extends GetxController {
       UIHelper.errorFlushbar();
     }
   }
+
+  removeTrackData({required String date, required int index}) async {
+    try {
+      listTrack.removeAt(index);
+      await userRepository.removeTrackData(
+          uid: user.value.uid ?? "", date: date);
+    } catch (e) {
+      UIHelper.errorFlushbar();
+    }
+  }
 }

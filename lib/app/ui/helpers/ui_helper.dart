@@ -21,7 +21,7 @@ class UIHelper {
         snackStyle: SnackStyle.FLOATING,
         snackPosition: SnackPosition.TOP,
         duration: Duration(seconds: 3),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.red[300]!,
       );
       await Future.delayed(Duration(seconds: 4)).then((value) {
         currentFlushBarMessage = '';

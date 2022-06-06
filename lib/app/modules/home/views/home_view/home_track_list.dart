@@ -33,6 +33,12 @@ class HomeTrackList extends GetView<HomeController> {
                   return HomeTrackCard(
                     weight: trackItem.weight ?? 0,
                     date: trackItem.date ?? '',
+                    onRemove: () {
+                      controller.removeTrackData(
+                        index: index,
+                        date: trackItem.date ?? "",
+                      );
+                    },
                   );
                 },
                 childCount: controller.listTrack.length,

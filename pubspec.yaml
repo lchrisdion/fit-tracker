@@ -40,7 +40,7 @@ dependencies:
       ref: master
   get: ^4.6.5
   jiffy: ^5.0.0
-  syncfusion_flutter_datepicker: ^20.1.58
+  syncfusion_flutter_charts: ^20.1.58+1
 
 dev_dependencies:
   flutter_test:

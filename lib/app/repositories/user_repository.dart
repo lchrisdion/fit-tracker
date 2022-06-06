@@ -93,4 +93,20 @@ class UserRepository {
       throw e;
     }
   }
+
+  Future<void> removeTrackData({
+    required String uid,
+    required String date,
+  }) async {
+    try {
+      await usersCollection
+          .doc(uid)
+          .collection('user-tracks')
+          .doc(date)
+          .delete();
+    } on FirebaseException catch (e) {
+      UIHelper.errorFlushbar(message: e.toString());
+      throw e;
+    }
+  }
 }

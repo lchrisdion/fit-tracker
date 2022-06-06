@@ -28,6 +28,7 @@ class AuthController extends GetxService {
   });
   final isLogin = false.obs;
   final userHasData = false.obs;
+  final isFetchingUserData = false.obs;
 
   @override
   void onInit() {
@@ -78,27 +79,25 @@ class AuthController extends GetxService {
   }
 
   getUserData() async {
+    if (isFetchingUserData.value) return;
     try {
+      isFetchingUserData.value = true;
       var response = await userRepository.getUserData(
           uid: firebaseUserData.value?.uid ?? "");
       userData.value = response;
       userHasData.value = true;
     } catch (e) {
     } finally {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) {
-          if (userData.value.uid == null)
-            Get.offAllNamed(
-              Routes.PROFILE_DATA,
-              arguments: {
-                'email': firebaseUserData.value?.email,
-                'uid': firebaseUserData.value?.uid,
-              },
-            );
-          else if (Get.currentRoute != Routes.HOME)
-            Get.offAllNamed(Routes.HOME);
-        },
-      );
+      isFetchingUserData.value = false;
+      if (userData.value.uid == null)
+        Get.offAllNamed(
+          Routes.PROFILE_DATA,
+          arguments: {
+            'email': firebaseUserData.value?.email,
+            'uid': firebaseUserData.value?.uid,
+          },
+        );
+      else if (Get.currentRoute != Routes.HOME) Get.offAllNamed(Routes.HOME);
     }
   }
 }

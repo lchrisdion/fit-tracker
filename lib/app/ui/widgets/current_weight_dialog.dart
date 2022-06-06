@@ -1,7 +1,4 @@
-import 'package:fit_tracker/app/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:jiffy/jiffy.dart';
 
 import 'global_date_picker.dart';
 import 'global_loading.dart';
