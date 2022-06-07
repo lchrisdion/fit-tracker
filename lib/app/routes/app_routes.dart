@@ -5,7 +5,8 @@ abstract class Routes {
   Routes._();
   static const LOGIN = _Paths.LOGIN;
   static const HOME = _Paths.HOME;
-  static const PROFILE_DATA = _Paths.PROFILE_REGISTER;
+  static const PROFILE_REGISTER = _Paths.PROFILE_REGISTER;
+  static const PROFILE_SETTINGS = _Paths.PROFILE_SETTINGS;
 }
 
 abstract class _Paths {
@@ -13,4 +14,5 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const HOME = '/home';
   static const PROFILE_REGISTER = '/profile-register';
+  static const PROFILE_SETTINGS = '/profile-settings';
 }

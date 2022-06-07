@@ -47,7 +47,6 @@ class LoginView extends GetView<LoginController> {
                 27,
                 0,
               ),
-              shrinkWrap: true,
               children: [
                 GlobalTextField(
                   controller: controller.emailController,

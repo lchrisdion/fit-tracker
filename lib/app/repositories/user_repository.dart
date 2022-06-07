@@ -24,10 +24,32 @@ class UserRepository {
         "date_of_birth": dateOfBirth,
         "name": name,
       };
-      print(data);
       await usersCollection.doc(uid).set(data);
     } on FirebaseException catch (e) {
-      UIHelper.errorFlushbar(message: e.toString());
+      UIHelper.errorFlushbar(message: e.message);
+      print(e.toString());
+    }
+  }
+
+  updateUserData(
+      {required String email,
+      required String name,
+      required int height,
+      required bool isMale,
+      required String uid,
+      required String dateOfBirth}) async {
+    try {
+      var data = {
+        "email": email,
+        "height": height,
+        "is_male": isMale,
+        "uid": uid,
+        "date_of_birth": dateOfBirth,
+        "name": name,
+      };
+      await usersCollection.doc(uid).update(data);
+    } on FirebaseException catch (e) {
+      UIHelper.errorFlushbar(message: e.message);
       print(e.toString());
     }
   }
@@ -42,7 +64,7 @@ class UserRepository {
         },
       );
     } on FirebaseException catch (e) {
-      UIHelper.errorFlushbar(message: e.toString());
+      UIHelper.errorFlushbar(message: e.message);
       print(e.toString());
     }
   }
@@ -54,7 +76,7 @@ class UserRepository {
       var response = await usersCollection.doc(uid).get();
       return UserData.fromDocumentSnapshot(response);
     } on FirebaseException catch (e) {
-      UIHelper.errorFlushbar(message: e.toString());
+      UIHelper.errorFlushbar(message: e.message);
       throw e;
     }
   }
@@ -89,7 +111,7 @@ class UserRepository {
         return UserTrack.fromDocumentSnapshot(value);
       }).toList();
     } on FirebaseException catch (e) {
-      UIHelper.errorFlushbar(message: e.toString());
+      UIHelper.errorFlushbar(message: e.message);
       throw e;
     }
   }
@@ -105,7 +127,7 @@ class UserRepository {
           .doc(date)
           .delete();
     } on FirebaseException catch (e) {
-      UIHelper.errorFlushbar(message: e.toString());
+      UIHelper.errorFlushbar(message: e.message);
       throw e;
     }
   }

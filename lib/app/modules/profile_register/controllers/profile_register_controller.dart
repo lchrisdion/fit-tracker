@@ -46,7 +46,7 @@ class ProfileRegisterController extends GetxController {
         height: int.parse(heightValue.value.removeAllWhitespace),
         isMale: genderValue.value == "MALE",
         uid: argUID ?? "",
-        dateOfBirth: DateTime.now().toString(),
+        dateOfBirth: selectedPickUpDateTime.toString(),
         name: nameValue.value,
       );
       await authController.getUserData();

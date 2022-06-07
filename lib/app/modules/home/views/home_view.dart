@@ -1,8 +1,10 @@
+import 'package:fit_tracker/app/ui/theme/app_theme.dart';
 import 'package:fit_tracker/app/ui/widgets/global_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../auth_controller.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 import 'home_view/home_chart.dart';
 import 'home_view/home_track_list.dart';
@@ -35,12 +37,21 @@ class HomeView extends GetView<HomeController> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            IconButton(
-                              onPressed: () async {
-                                await controller.authController.signOut();
-                              },
-                              icon:
-                                  Icon(Icons.exit_to_app, color: Colors.black),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: appThemeData.primaryColor.withAlpha(30),
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                onPressed: () async {
+                                  // await controller.authController.signOut();
+                                  Get.toNamed(Routes.PROFILE_SETTINGS);
+                                },
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
                           ],
                         ),

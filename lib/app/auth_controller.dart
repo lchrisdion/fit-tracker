@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_tracker/app/data/model/user_data_model.dart';
 import 'package:fit_tracker/app/repositories/user_repository.dart';
 import 'package:fit_tracker/app/routes/app_pages.dart';
+import 'package:fit_tracker/app/ui/helpers/ui_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -53,7 +54,9 @@ class AuthController extends GetxService {
       if (e.code == 'email-already-in-use') {
         await signIn(email, password);
       } else
-        print(e.toString());
+        UIHelper.errorFlushbar(
+          message: e.message,
+        );
     }
   }
 
@@ -64,7 +67,9 @@ class AuthController extends GetxService {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      UIHelper.errorFlushbar(
+        message: e.message,
+      );
     }
   }
 
@@ -78,7 +83,9 @@ class AuthController extends GetxService {
     }
   }
 
-  getUserData() async {
+  getUserData({
+    bool checkNextRouting: true,
+  }) async {
     if (isFetchingUserData.value) return;
     try {
       isFetchingUserData.value = true;
@@ -89,15 +96,17 @@ class AuthController extends GetxService {
     } catch (e) {
     } finally {
       isFetchingUserData.value = false;
-      if (userData.value.uid == null)
-        Get.offAllNamed(
-          Routes.PROFILE_DATA,
-          arguments: {
-            'email': firebaseUserData.value?.email,
-            'uid': firebaseUserData.value?.uid,
-          },
-        );
-      else if (Get.currentRoute != Routes.HOME) Get.offAllNamed(Routes.HOME);
+      if (checkNextRouting) {
+        if (userData.value.uid == null)
+          Get.offAllNamed(
+            Routes.PROFILE_REGISTER,
+            arguments: {
+              'email': firebaseUserData.value?.email,
+              'uid': firebaseUserData.value?.uid,
+            },
+          );
+        else if (Get.currentRoute != Routes.HOME) Get.offAllNamed(Routes.HOME);
+      }
     }
   }
 }

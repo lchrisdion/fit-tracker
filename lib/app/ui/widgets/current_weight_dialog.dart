@@ -27,61 +27,59 @@ class CurrentWeightDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => canPop,
-      child: Scaffold(
+      child: Dialog(
         backgroundColor: Colors.transparent,
-        body: Center(
-          child: Container(
-            width: double.infinity,
-            margin: const EdgeInsets.all(
-              27,
-            ),
-            padding: const EdgeInsets.all(
-              27,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Your Current Weight',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.start,
+        insetPadding: const EdgeInsets.all(
+          27,
+        ),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(
+            27,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Your Current Weight',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
                 ),
-                GlobalTextField(
-                  controller: weightTextEditingController,
-                  onChanged: onChange,
-                  keyboardType: TextInputType.number,
-                  inputAction: TextInputAction.done,
-                  prefixIcon: Icons.scale,
-                  hintText: 'Please enter your weight',
+                textAlign: TextAlign.start,
+              ),
+              GlobalTextField(
+                controller: weightTextEditingController,
+                onChanged: onChange,
+                keyboardType: TextInputType.number,
+                inputAction: TextInputAction.done,
+                prefixIcon: Icons.scale,
+                hintText: 'Please enter your weight',
+              ),
+              GlobalDatePicker(
+                currentTime: currentTime,
+                onPickedDate: onPickedDate,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: onSubmit,
+                  child: isSubmitting
+                      ? const GlobalLoading()
+                      : Text(
+                          'Add data',
+                        ),
                 ),
-                GlobalDatePicker(
-                  currentTime: currentTime,
-                  onPickedDate: onPickedDate,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: onSubmit,
-                    child: isSubmitting
-                        ? const GlobalLoading()
-                        : Text(
-                            'Add data',
-                          ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

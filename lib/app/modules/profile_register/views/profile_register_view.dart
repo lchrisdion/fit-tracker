@@ -48,7 +48,6 @@ class ProfileRegisterView extends GetView<ProfileRegisterController> {
                 27,
                 0,
               ),
-              shrinkWrap: true,
               children: [
                 GlobalTextField(
                   controller: controller.nameController,

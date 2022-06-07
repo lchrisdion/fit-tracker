@@ -77,6 +77,7 @@ class HomeController extends GetxController {
           ),
         ),
         barrierDismissible: canPop,
+        useSafeArea: true,
       );
     } catch (e) {
       UIHelper.errorFlushbar();
